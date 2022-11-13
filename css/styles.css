@@ -84,6 +84,13 @@ body{
 .book-title {
     font-size: 28px;
     color: darkcyan;
+    text-transform: capitalize;
+}
+
+.mark {
+    font-size: 28px;
+    color: darkcyan; 
+    background-color: coral;
 }
 
 .book-text {
