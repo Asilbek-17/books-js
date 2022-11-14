@@ -6,13 +6,12 @@ const elSelection = document.querySelector(".js-sort");
 const elListBooks = document.querySelector(".js-list");
 
 const Fragment = document.createDocumentFragment();
-function renderBooks(arr, regex = "") {
+let i = 0;
+function renderBooks(arr, node, regex = "") {
     elListBooks.innerHTML = "";
     
     arr.forEach(item => {
         const newItem = document.createElement("li");
-        
-        
         
         const newTitle = document.createElement("h2");
         const newImg = document.createElement("img");
@@ -25,6 +24,7 @@ function renderBooks(arr, regex = "") {
         const newPagespan = document.createElement("span");
         const newLanguagespan = document.createElement("span");
         const newLink = document.createElement("a");
+        const newBtn = document.createElement("button");
         
         newImg.src = item.imageLink;
         newImg.alt = item.title;
@@ -46,6 +46,7 @@ function renderBooks(arr, regex = "") {
         newLink.textContent = "Wikipedia";
         newLink.href = item.link;
         newLink.target = "blank";
+        newBtn.dataset.id = i++;
         
         newItem.classList.add("item");
         
@@ -65,12 +66,14 @@ function renderBooks(arr, regex = "") {
         newLanguagespan.classList.add("language-icon");
         
         newLink.classList.add("book-link");
+        newBtn.classList.add("book-btn");
         
         newItem.appendChild(newImg);
         newItem.appendChild(newTitle);
         newItem.appendChild(newText);
         newItem.appendChild(newBox);
         newItem.appendChild(newLink);
+        newItem.appendChild(newBtn);
         
         newYearText.prepend(newYearspan);
         newPageText.prepend(newPagespan);
@@ -80,10 +83,11 @@ function renderBooks(arr, regex = "") {
         newBox.appendChild(newPageText);
         newBox.appendChild(newLanguageText);
         
+        
         Fragment.appendChild(newItem);
     });
     
-    elListBooks.appendChild(Fragment);
+    node.appendChild(Fragment);
 };
 
 function sortBooks(arr, sortTypes) {
@@ -151,7 +155,7 @@ elForm.addEventListener("submit", function(evt){
     
     
     const searchBooks = books.filter(item => {
-        const searchInp = String(item.title).match(regexTitle) && String(item.author).match(regexAuthor) && (String(item.language).match(elSelectValue) || elSelectValue === "all") && ((elInputYearValue <= item.year) || (elInputYearValue == "" && elInputYearValue <= item.year));
+        const searchInp = String(item.title).match(regexTitle) && String(item.author).match(regexAuthor) && (String(item.language).match(elSelectValue) || elSelectValue === "all") && ((elInputYearValue <= item.year) || (elInputYearValue == "" &&  item.year));
         
         
         return searchInp
@@ -159,10 +163,10 @@ elForm.addEventListener("submit", function(evt){
     
     if(searchBooks.length > 0) {
         sortBooks(searchBooks, elSelection.value)
-        renderBooks(searchBooks, regexTitle);
+        renderBooks(searchBooks, elListBooks, regexTitle);
     } else {
         elListBooks.innerHTML = "Books not found !!!"
     }
 })
 
-renderBooks(books)
+renderBooks(books, elListBooks)

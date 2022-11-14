@@ -178,3 +178,18 @@ body{
     display: block;
     text-align: left ;
 }
+
+.book-btn {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    background-color: transparent;
+    border: none;
+    background-image: url("../icons/nosave.png");
+    background-size: 30px;
+    background-repeat: no-repeat;
+}
+
+.book-btn-save {
+    background-image: url("../icons/save.png");
+}
