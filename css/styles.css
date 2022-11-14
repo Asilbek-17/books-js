@@ -107,10 +107,16 @@ body{
     background-color: coral;
 }
 
+.mark2 {
+    color: coral; 
+    background-color: darkcyan;
+}
+
 .book-text {
     color: coral;
     margin: 0;
     text-align: left;
+    text-transform: capitalize;
 }
 
 .book-box {

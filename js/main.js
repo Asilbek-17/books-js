@@ -1,16 +1,18 @@
 const elForm = document.querySelector(".js-form");
 const elInput = document.querySelector(".search-inp");
+const elInputYear = document.querySelector(".search-year");
+const elInputAuthor = document.querySelector(".search-author");
+const elSelection = document.querySelector(".js-sort");
 const elListBooks = document.querySelector(".js-list");
 
 const Fragment = document.createDocumentFragment();
-
 function renderBooks(arr, regex = "") {
     elListBooks.innerHTML = "";
     
     arr.forEach(item => {
         const newItem = document.createElement("li");
         
-       
+        
         
         const newTitle = document.createElement("h2");
         const newImg = document.createElement("img");
@@ -35,7 +37,7 @@ function renderBooks(arr, regex = "") {
             newTitle.textContent = item.title;
             
         }
-
+        
         newText.textContent = item.author;
         newYearText.textContent = item.year;
         newPageText.textContent = item.pages;
@@ -82,24 +84,81 @@ function renderBooks(arr, regex = "") {
     });
     
     elListBooks.appendChild(Fragment);
-}
+};
+
+function sortBooks(arr, sortTypes) {
+    if(sortTypes === "Az") {
+        arr.sort((a , b) => {
+            return String(a.title).toLowerCase().charCodeAt(0) - String(b.title).toLowerCase().charCodeAt(0) 
+        });
+    };
+    
+    if(sortTypes === "Za") {
+        arr.sort((a , b) => {
+            return String(b.title).toLowerCase().charCodeAt(0) - String(a.title).toLowerCase().charCodeAt(0) 
+        });
+    };
+    
+    if(sortTypes === "No") {
+        arr.sort((a , b) => {
+            return b.year - a.year
+        });
+    };
+    
+    if(sortTypes === "On") {
+        arr.sort((a , b) => {
+            return a.year - b.year
+        });
+    };
+};
+
+const elSelect = document.querySelector(".js-select");
+const elOption = document.querySelector(".all-option");
+
+const language = [];
+
+books.forEach(itm => {
+    if (! language.includes(itm.language)) {
+        language.push(itm.language)
+    }
+})
+
+const categorieFrag = document.createDocumentFragment();
+
+language.forEach(i => {
+    const newOption = document.createElement("option");
+    
+    newOption.value = i;
+    newOption.textContent = i;
+    
+    categorieFrag.appendChild(newOption)
+})
+
+elSelect.appendChild(categorieFrag);
 
 
 
-elForm.addEventListener("click", function(evt){
-    evt.preventDefault()
+elForm.addEventListener("submit", function(evt){
+    evt.preventDefault();
     
     const elInputValue = elInput.value.trim();
+    const newInputAuthorValue = elInputAuthor.value.trim(); 
+    const elSelectValue = elSelect.value.trim(); 
+    const elInputYearValue = Number(elInputYear.value.trim());
     
-    const regexTitle = new RegExp(elInputValue, "gi")
+    const regexTitle = new RegExp(elInputValue, "gi");
+    const regexAuthor = new RegExp(newInputAuthorValue, "gi");
+    
     
     const searchBooks = books.filter(item => {
-        const searchInp = String(item.title).match(regexTitle)
+        const searchInp = String(item.title).match(regexTitle) && String(item.author).match(regexAuthor) && (String(item.language).match(elSelectValue) || elSelectValue === "all") && ((elInputYearValue <= item.year) || (elInputYearValue == "" && elInputYearValue <= item.year));
+        
         
         return searchInp
     });
     
     if(searchBooks.length > 0) {
+        sortBooks(searchBooks, elSelection.value)
         renderBooks(searchBooks, regexTitle);
     } else {
         elListBooks.innerHTML = "Books not found !!!"
