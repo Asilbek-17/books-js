@@ -95,8 +95,9 @@ function renderBooks(arr, node, regex = "") {
     
     node.appendChild(Fragment);
 };
-const bookMarkList = document.querySelector(".offcanvas-body");
 
+const bookMarkList = document.querySelector(".offcanvas-header");
+const bookMarkArr = [];
 
 function bookMark(arr, element) {
     element.innerHTML = "";
@@ -174,9 +175,6 @@ function bookMark(arr, element) {
     
     element.appendChild(Fragment); 
 }
-const localBokmark = JSON.parse(window.localStorage.getItem("todos"));
-const bookMarkArr = localBokmark || [];
-bookMark(bookMarkArr, bookMarkList)
 
 function sortBooks(arr, sortTypes) {
     if(sortTypes === "Az") {
@@ -265,7 +263,6 @@ elListBooks.addEventListener("click", function(evt){
         if(!bookMarkArr.includes(itemFind)) {
             bookMarkArr.push(itemFind);
             bookMark(bookMarkArr, bookMarkList)
-            window.localStorage.setItem("todos", JSON.stringify(bookMarkArr));
         }
     }
 });
@@ -278,7 +275,6 @@ bookMarkList.addEventListener("click", function(evt){
         if(!bookMarkArr.includes(itemFind)) {
             bookMarkArr.splice(itemFind , 1);
             bookMark(bookMarkArr, bookMarkList)
-            window.localStorage.setItem("todos", JSON.stringify(bookMarkArr))
         }
     }
 })

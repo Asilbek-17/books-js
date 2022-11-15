@@ -201,6 +201,8 @@ body{
 }
 .offcanvas-end {
     width: 500px;
+    height: auto;
+    overflow: scroll;
 }
 
 .delete-btn {
