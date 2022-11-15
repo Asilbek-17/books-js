@@ -13,13 +13,14 @@
 <body>
   <header class="site-header">
     <div class="container">
-      <nav class="site-nav py-3 d-flex align-items-center justify-content-between">
-        <a class="logo d-flex text-decoration-none" href="./index.html">
+      <nav class="site-nav py-3 d-flex align-items-center">
+        <a class="logo d-flex text-decoration-none me-auto" href="./index.html">
           <img class="me-2" src="./icons/book-icon.svg" alt="site logo">
           <p class="logo-text">Online <span class="logo-span">Books</span></p>
         </a>
         
-        <a class="portfolio-link" href="https://asilbek-17.netlify.app/" target="blank">My Portfolio</a>
+        <a class="portfolio-link me-3" href="https://asilbek-17.netlify.app/" target="blank">My Portfolio</a>
+        <button class="bookmark" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">BookMark</button>
       </nav>
     </div>
   </header>
@@ -50,6 +51,15 @@
         <ul class="js-list d-flex align-items-center justify-content-between flex-wrap list-unstyled">
           
         </ul>
+        
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+          <div class="offcanvas-header">
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body d-flex flex-column justify-content-center align-items-center">
+          </div>
+        </div>
+
       </div>
     </section>
   </main>

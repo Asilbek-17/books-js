@@ -61,6 +61,12 @@ body{
     color: darkcyan;
 }
 
+.bookmark {
+    background-color: transparent;
+    border: none;
+    color: darkcyan;
+}
+
 .site-title {
     color: darkcyan;
 }
@@ -175,8 +181,8 @@ body{
 }
 
 .book-link {
-    display: block;
-    text-align: left ;
+    display: inline-block;
+    text-align: left;
 }
 
 .book-btn {
@@ -192,4 +198,18 @@ body{
 
 .book-btn-save {
     background-image: url("../icons/save.png");
+}
+.offcanvas-end {
+    width: 500px;
+}
+
+.delete-btn {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    background-color: transparent;
+    border: none;
+    background-image: url("../icons/delete.png");
+    background-size: 30px;
+    background-repeat: no-repeat;
 }

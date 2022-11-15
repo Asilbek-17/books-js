@@ -4,9 +4,11 @@ const elInputYear = document.querySelector(".search-year");
 const elInputAuthor = document.querySelector(".search-author");
 const elSelection = document.querySelector(".js-sort");
 const elListBooks = document.querySelector(".js-list");
+let bookMarkBtn = null;
 
 const Fragment = document.createDocumentFragment();
 let i = 0;
+let j = 0;
 function renderBooks(arr, node, regex = "") {
     elListBooks.innerHTML = "";
     
@@ -25,6 +27,7 @@ function renderBooks(arr, node, regex = "") {
         const newLanguagespan = document.createElement("span");
         const newLink = document.createElement("a");
         const newBtn = document.createElement("button");
+        bookMarkBtn = newBtn;
         
         newImg.src = item.imageLink;
         newImg.alt = item.title;
@@ -46,7 +49,10 @@ function renderBooks(arr, node, regex = "") {
         newLink.textContent = "Wikipedia";
         newLink.href = item.link;
         newLink.target = "blank";
+        newItem.dataset.id = j++;
         newBtn.dataset.id = i++;
+        
+        
         
         newItem.classList.add("item");
         
@@ -89,6 +95,88 @@ function renderBooks(arr, node, regex = "") {
     
     node.appendChild(Fragment);
 };
+const bookMarkList = document.querySelector(".offcanvas-body");
+
+
+function bookMark(arr, element) {
+    element.innerHTML = "";
+    arr.forEach(item => {
+        const newItem = document.createElement("li");
+        
+        const newTitle = document.createElement("h2");
+        const newImg = document.createElement("img");
+        const newText = document.createElement("p");
+        const newBox = document.createElement("div");
+        const newYearText = document.createElement("p");
+        const newPageText = document.createElement("p");
+        const newLanguageText = document.createElement("p");
+        const newYearspan = document.createElement("span");
+        const newPagespan = document.createElement("span");
+        const newLanguagespan = document.createElement("span");
+        const newLink = document.createElement("a");
+        const newBtn = document.createElement("button");
+        
+        newImg.src = item.imageLink;
+        newImg.alt = item.title;
+        newImg.width = "300";
+        newImg.height = "300";
+        
+        newTitle.textContent = item.title;
+        newText.textContent = item.author;
+        newYearText.textContent = item.year;
+        newPageText.textContent = item.pages;
+        newLanguageText.textContent = item.language;
+        
+        newLink.textContent = "Wikipedia";
+        newLink.href = item.link;
+        newLink.target = "blank";
+        newBtn.dataset.id = i++;
+        
+        
+        newItem.classList.add("item");
+        
+        newImg.classList.add("book-img");
+        
+        newTitle.classList.add("book-title");
+        newText.classList.add("book-text");
+        
+        newBox.classList.add("book-box");
+        
+        newYearText.classList.add("year-text");
+        newPageText.classList.add("page-text");
+        newLanguageText.classList.add("language-text");
+        
+        newYearspan.classList.add("year-icon");
+        newPagespan.classList.add("page-icon");
+        newLanguagespan.classList.add("language-icon");
+        
+        newLink.classList.add("book-link");
+        newBtn.classList.add("delete-btn");
+        
+        newItem.appendChild(newImg);
+        newItem.appendChild(newTitle);
+        newItem.appendChild(newText);
+        newItem.appendChild(newBox);
+        newItem.appendChild(newLink);
+        newItem.appendChild(newBtn);
+        
+        newYearText.prepend(newYearspan);
+        newPageText.prepend(newPagespan);
+        newLanguageText.prepend(newLanguagespan);
+        
+        newBox.appendChild(newYearText);
+        newBox.appendChild(newPageText);
+        newBox.appendChild(newLanguageText);
+        
+        
+        Fragment.appendChild(newItem);
+    });
+    
+    element.appendChild(Fragment); 
+}
+const localBokmark = JSON.parse(window.localStorage.getItem("todos"));
+const bookMarkArr = localBokmark || [];
+bookMark(bookMarkArr, bookMarkList)
 
 function sortBooks(arr, sortTypes) {
     if(sortTypes === "Az") {
@@ -167,6 +255,32 @@ elForm.addEventListener("submit", function(evt){
     } else {
         elListBooks.innerHTML = "Books not found !!!"
     }
+});
+
+elListBooks.addEventListener("click", function(evt){
+    if(evt.target.matches(".book-btn")) {
+        bookMarkBtn.classList.toggle("book-btn-save")
+        let btnId = evt.target.dataset.id;
+        let itemFind = books.find(item => item.id == btnId);
+        if(!bookMarkArr.includes(itemFind)) {
+            bookMarkArr.push(itemFind);
+            bookMark(bookMarkArr, bookMarkList)
+            window.localStorage.setItem("todos", JSON.stringify(bookMarkArr));
+        }
+    }
+});
+
+bookMarkList.addEventListener("click", function(evt){
+    if(evt.target.matches(".delete-btn")) {
+        bookMarkBtn.classList.toggle("book-btn-save")
+        let btnId = evt.target.dataset.id;
+        let itemFind = books.find(item => item.id == btnId);
+        if(!bookMarkArr.includes(itemFind)) {
+            bookMarkArr.splice(itemFind , 1);
+            bookMark(bookMarkArr, bookMarkList)
+            window.localStorage.setItem("todos", JSON.stringify(bookMarkArr))
+        }
+    }
 })
 
-renderBooks(books, elListBooks)
+renderBooks(books, elListBooks);
